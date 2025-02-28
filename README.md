@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CRUD DE PLANOS E EFERTAS COM WEBOOKS DO STRIPE
 
-## Getting Started
+Vídeo demonstrativo: [https://www.threads.net/@darlleybbf/post/DBVWi6WRWu-](https://www.threads.net/@darlleybbf/post/DBVWi6WRWu-)
 
-First, run the development server:
+O maior diferencial deste projeto é a utilização do próprio dashboard do Stripe como um "backoffice". Através dos eventos de webhook, o usuário pode controlar os recursos de produtos, preços e clientes diretamente pelo dashboard do Stripe, eliminando a necessidade de desenvolver uma interface administrativa separada. Isso simplifica significativamente o gerenciamento e oferece uma solução robusta e integrada para o controle de pagamentos e assinaturas.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Setup do projeto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Vá para o site do Stripe `https://stripe.com/br`
+2. Crie uma nova conta
+3. Copie as API keys (Publishable key e Secret key)
+4. Cole ela no arquivo `.env-example` e renomeie ele para `.env`
+5. Baixe o [node](https://nodejs.org/pt/download) em sua maquina
+5. Instale as dependencias com `npm install`
+6. Execute o programa com `npm run dev`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Stripe CLI
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> [!NOTE]
+> O webhook é necessário para que o Stripe possa enviar os eventos de atualizações de planos, produtos e preços para a aplicação.
 
-## Learn More
+1. Faça download do [Stripe CLI](https://docs.stripe.com/stripe-cli) (Webhook)
+2. Execute `stripe login` e autentique sua conta
+3. Execute `stripe listen --forward-to http://localhost:3000/api/webhook/stripe`
+4. Copie o webhook secret key e adicione ele na chave `STRIPE_WEBHOOK_SECRET` do arquivo `.env`
 
-To learn more about Next.js, take a look at the following resources:
+> [!NOTE]
+> Sugiro colocar os terminais da aplicação e do webhook um ao lado do outro.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Acesse o dashboard do stripe
+6. Crie um novo produto e um novo preço em `Catalogo de Produtos`
+7. A oferta ficará visivel na pagina `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> [!NOTE]
+> Pronto, agora cada criação e atualização de produtos serão listado na página.
 
-## Deploy on Vercel
+**PRODUTOS**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A criação e atualização de produtos monitora alterações
+- no campo de `nome` do produto
+- no campo de `descrição` do produto
+- no campo de `Lista de recursos de marketing` do produto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> [!TIP]
+> O campo `Lista de recursos de marketing` do produto é usado para adicionar os items da lista de recursos do seu produto.
+
+**PREÇOS**
+
+A criação e atualização de preços monitora alterações
+- no campo de `valor`
+- no campo de `moeda`
+- no campo de `Período de faturamento`
+- no campo de `metadados`
+
+> [!NOTE]
+> O campo de `metadados` do preço pode ser usado para adicionar as limitações de uso da assinatura, como `max_usuarios_limit`, `max_integracoes_limit`, etc. e cada limite poder ser listado em um componente de progresso. Não implementei este recurso neste projeto, mas implementou no meu [Template para SaaS](https://github.com/Darlley/saas-admin) (segunda imagem).
+
+Para testar o checkout você pode usrar o cartão de testes do próprio Stripe.
