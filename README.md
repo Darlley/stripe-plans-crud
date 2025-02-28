@@ -1,10 +1,7 @@
 # CRUD DE PLANOS E EFERTAS COM WEBOOKS DO STRIPE
 
-<video width="320" height="240" controls>
-  <source src="https://github.com/Darlley/stripe-plans-crud/blob/main/demo.mp4" type="video/mp4">
-</video>
+https://github.com/user-attachments/assets/d61fc4c9-4f46-4cd0-9d6b-d1edf9f493af
 
-  
 Vídeo demonstrativo: [https://www.threads.net/@darlleybbf/post/DBVWi6WRWu-](https://www.threads.net/@darlleybbf/post/DBVWi6WRWu-)
 
 O maior diferencial deste projeto é a utilização do próprio dashboard do Stripe como um "backoffice". Através dos eventos de webhook, o usuário pode controlar os recursos de produtos, preços e clientes diretamente pelo dashboard do Stripe, eliminando a necessidade de desenvolver uma interface administrativa separada. Isso simplifica significativamente o gerenciamento e oferece uma solução robusta e integrada para o controle de pagamentos e assinaturas.
